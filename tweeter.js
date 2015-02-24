@@ -15,7 +15,7 @@ if(!process.env.CRASHNO)
 var message = "Hi @vmbusinesshelp I just had to restart @rationetwork's @vmbusiness modem. This has happened " + process.env.CRASHNO + " times since 15:00 20/02/2015 :-|";
 
 client.post('statuses/update', {status: message},  function(error, tweet, response){
-	if(error) throw error;
+	if(error) return console.error(error);
 
 	console.log("Tweet successful");
 	//console.log(tweet);  // Tweet body.
