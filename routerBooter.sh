@@ -17,7 +17,7 @@ while true; do
 
                 wemo switch "$WEMONAME" off;
 
-                WEMOSTAT=$(wemo -v switch "Ratio Wemo" status);
+                WEMOSTAT=$(wemo -v switch "WEMONAME" status);
 
                 if [ "$WEMOSTAT" == "off" ]
                 then
@@ -29,7 +29,7 @@ while true; do
 
                     wemo switch "$WEMONAME" on;
 
-                    WEMOSTAT=$(wemo -v switch "Ratio Wemo" status);
+                    WEMOSTAT=$(wemo -v switch "$WEMONAME" status);
 
                     if [ "$WEMOSTAT" == "on" ]
                     then
@@ -44,7 +44,7 @@ while true; do
 
                         echo "$(date) - Tweeting at virgin for the $CRASHNO time..."
 
-                        CRASHNO=$CRASHNO node tweeter
+                        #CRASHNO=$CRASHNO node tweeter
 
                         echo "$(date) - Tweet sent";
 
