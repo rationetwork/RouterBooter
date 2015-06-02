@@ -11,34 +11,54 @@ while true; do
         #Ping and count the instances of the word 'received'
         count=$(ping -c $EXPECTCOUNT $PINGHOST | grep 'received' | awk -F',' '{ print $2 }' | awk '{ print $1 }')
 
-        if [ $count -eq 0 ]; then
+        if [ "$count" -ne "$EXPECTCOUNT" ] || [ "$count" = "" ]; then
                 #failed
                 echo "$(date) - Unable to reach $PINGHOST - rebooting..."
 
-                wemo switch "$WEMONAME" off
+                wemo switch "$WEMONAME" off;
 
-                echo "$(date) - WeMo Switch off, now waiting 5 seconds"
+                WEMOSTAT=$(wemo -v switch "Ratio Wemo" status);
 
-                sleep 5
+                if [ "$WEMOSTAT" == "off" ]
+                then
+                    echo "$(date) - WeMo Switch off, now waiting 5 seconds"
 
-                echo "$(date) - Turning back on..."
+                    sleep 5
 
-                wemo switch "$WEMONAME" on
+                    echo "$(date) - Turning back on..."
 
-                echo "$(date) - Turned back on, waiting for the router to reboot..."
+                    wemo switch "$WEMONAME" on;
 
-                ##### TWEET AT VIRGIN #####
-                read OLDCRASHNO < crashNo
+                    WEMOSTAT=$(wemo -v switch "Ratio Wemo" status);
 
-                CRASHNO=$(($OLDCRASHNO+1))
+                    if [ "$WEMOSTAT" == "on" ]
+                    then
+                        echo "$(date) - Turned back on, waiting for the router to reboot..."
 
-                echo $CRASHNO > crashNo
+                        ##### TWEET AT VIRGIN #####
+                        read OLDCRASHNO < crashNo
 
-                echo "$(date) - Tweeting at virgin for the $CRASHNO time..."
+                        CRASHNO=$(($OLDCRASHNO+1))
 
-                CRASHNO=$CRASHNO node tweeter
+                        echo $CRASHNO > crashNo
 
-                ##### END TWEET #####
+                        echo "$(date) - Tweeting at virgin for the $CRASHNO time..."
+
+                        CRASHNO=$CRASHNO node tweeter
+
+                        echo "Tweet sent";
+
+                        ##### END TWEET #####
+                    else
+                        wemo clear;
+
+                        echo "Failed to turn wemo back on, not tweeted or incremented crash number."
+                    fi
+                else
+                    wemo clear;
+
+                    echo "Failed to turn wemo off, connection to wemo failed?"
+                fi
 
                 sleep 180
         else
@@ -49,5 +69,5 @@ while true; do
                 wemo switch "$WEMONAME" on
         fi
 
-        sleep 5
+        sleep 1
 done
