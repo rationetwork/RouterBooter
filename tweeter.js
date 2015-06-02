@@ -17,7 +17,7 @@ var message = "Hi @vmbusinesshelp I just had to restart @rationetwork's @vmbusin
 client.post('statuses/update', {status: message},  function(error, tweet, response){
 	if(error) return console.error(error);
 
-	console.log("Tweet successful");
+	//console.log("Tweet successful");
 	//console.log(tweet);  // Tweet body.
 	//console.log(response);  // Raw response object.
 });

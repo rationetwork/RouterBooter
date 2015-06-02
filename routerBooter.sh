@@ -46,7 +46,7 @@ while true; do
 
                         CRASHNO=$CRASHNO node tweeter
 
-                        echo "Tweet sent";
+                        echo "$(date) - Tweet sent";
 
                         ##### END TWEET #####
                     else
