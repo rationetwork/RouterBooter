@@ -17,7 +17,7 @@ while true; do
 
                 wemo switch "$WEMONAME" off;
 
-                WEMOSTAT=$(wemo -v switch "WEMONAME" status);
+                WEMOSTAT=$(wemo -v switch "$WEMONAME" status);
 
                 if [ "$WEMOSTAT" == "off" ]
                 then
