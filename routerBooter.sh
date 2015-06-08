@@ -44,7 +44,7 @@ while true; do
 
                         echo "$(date) - Tweeting at virgin for the $CRASHNO time..."
 
-                        #CRASHNO=$CRASHNO node tweeter
+                        CRASHNO=$CRASHNO node tweeter
 
                         echo "$(date) - Tweet sent";
 
